@@ -6,20 +6,12 @@
       clipped
     >
       <v-list dense>
-        <v-list-item link>
+        <v-list-item link :to="item.route" v-for="(item, index) in routes" :key="index">
           <v-list-item-action>
-            <v-icon>mdi-view-dashboard</v-icon>
+            <v-icon>{{item.icon}}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Dashboard</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link>
-          <v-list-item-action>
-            <v-icon>mdi-cog</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Settings</v-list-item-title>
+            <v-list-item-title>{{item.name}}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -30,7 +22,7 @@
       clipped-left
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>Application</v-toolbar-title>
+      <v-toolbar-title>Fábrica de Programadores</v-toolbar-title>
     </v-app-bar>
 
     <v-main>
@@ -50,6 +42,28 @@
     },
     data: () => ({
       drawer: null,
+      routes:[
+        {
+          name: "Home",
+          icon: "mdi-home",
+          route: "/"
+        },
+        {
+          name: "Contas",
+          icon: "mdi-account-box",
+          route: "/accounts"
+        },
+        {
+          name: "Usuários",
+          icon: "mdi-account-circle",
+          route: "/users"
+        },
+        {
+          name: "Relatórios",
+          icon: "mdi-receipt",
+          route: "/reports"
+        },
+      ],
     }),
     created () {
       this.$vuetify.theme.dark = true
