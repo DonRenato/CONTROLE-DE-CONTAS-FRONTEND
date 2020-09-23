@@ -19,7 +19,8 @@
 
     <v-app-bar
       app
-      clipped-left
+      color="#993399"
+      dark
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>Fábrica de Programadores</v-toolbar-title>
@@ -29,8 +30,8 @@
         <router-view></router-view>
     </v-main>
 
-    <v-footer app>
-      <span>NYD Tech&copy; {{ new Date().getFullYear() }}</span>
+    <v-footer color="#993399" app>
+      <span class="white--text">NYD Tech&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
 </template>
@@ -66,7 +67,7 @@
       ],
     }),
     created () {
-      this.$vuetify.theme.dark = true
+      this.$vuetify.theme.dark = false
     },
   }
 </script>
