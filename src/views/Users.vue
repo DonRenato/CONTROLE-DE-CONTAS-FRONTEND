@@ -3,7 +3,7 @@
   <div>
     <v-card class="my-9 mx-auto" v-if="showForm" >
       <v-btn    @click="showForm = false"
-                color="blue"
+                color="#ed7947"
                 dark
                 small
                 absolute
@@ -14,12 +14,14 @@
                 <v-icon>mdi-close</v-icon>
               </v-btn>
       <v-container>
+        <div class="mb-4">{{formTitle}}</div>
         <v-row>
           <v-col cols="12" sm="6" md="3">
             <v-text-field
               v-model="currentUser.name"
               label="Nome"
               required
+              hide-details
             ></v-text-field>
           </v-col>
 
@@ -28,6 +30,7 @@
             v-model="currentUser.username"
             label="Username"
             required
+            hide-details
           ></v-text-field>
           </v-col>
           
@@ -36,6 +39,7 @@
             v-model="currentUser.email"
             label="E-mail"
             required
+            hide-details
           ></v-text-field>
           </v-col>
 
@@ -45,6 +49,7 @@
             v-model="currentUser.password"
             label="Senha"
             required
+            hide-details
           ></v-text-field>
           </v-col>
       
@@ -71,7 +76,7 @@
           vertical
         ></v-divider>
         <v-spacer></v-spacer>
-       <v-btn color="primary" @click="formOpen" v-if="!showForm" small>Novo usuário</v-btn>
+       <v-btn color="#ed7947" @click="formOpen" v-if="!showForm" small>Novo usuário</v-btn>
       </v-toolbar>
     </template>
     <template v-slot:item.actions="{ item }">
@@ -90,7 +95,9 @@
       </v-icon>
     </template>
     <template v-slot:no-data>
-      <v-subheader>Nenhum usuário cadastrado</v-subheader>
+      <v-row justify="center">      
+        <v-subheader>Nenhuma usuário cadastrado</v-subheader>
+      </v-row>
     </template>
   </v-data-table>
   </div>
@@ -127,7 +134,7 @@
 
     computed: {
       formTitle () {
-        return this.editionItem === null ? 'Novo usuário' : 'Editar usuário'
+        return this.editItem == null ? 'Novo usuário' : 'Editar usuário'
       },
     },
 

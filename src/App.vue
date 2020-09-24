@@ -19,7 +19,7 @@
 
     <v-app-bar
       app
-      color="#993399"
+      color="#0b1f34"
       dark
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
@@ -30,7 +30,7 @@
         <router-view></router-view>
     </v-main>
 
-    <v-footer color="#993399" app>
+    <v-footer color="#0b1f34" app>
       <span class="white--text">NYD Tech&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
@@ -51,8 +51,8 @@
         },
         {
           name: "Contas",
-          icon: "mdi-account-box",
-          route: "/accounts"
+          icon: "mdi-cash",
+          route: "/bills"
         },
         {
           name: "Usuários",
