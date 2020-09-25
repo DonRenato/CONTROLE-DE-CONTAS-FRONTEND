@@ -1,21 +1,21 @@
 <template>
 <div>
-     <v-card class="my-9 mx-auto" v-if="showForm" >
-        <v-btn    @click="showForm = false"
-                    color="#ed7947"
-                    dark
-                    small
-                    absolute
-                    top
-                    right
-                    fab
-                >
+    <v-card class="my-9 mx-auto" v-if="showForm" >
+      <v-btn    @click="showForm = false"
+                color="#ed7947"
+                dark
+                small
+                absolute
+                top
+                right
+                fab
+              >
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
         <v-container>
             <div class="mb-4">Nova conta</div>
             <v-row>
-                <v-col cols="12" sm="4">
+                <v-col cols="12" sm="6" md="3">
                     <v-text-field
                     v-model="currentBill.description"
                     label="Descrição"
@@ -24,7 +24,7 @@
                     ></v-text-field>
                 </v-col>
 
-                 <v-col cols="12" sm="4">
+                 <v-col cols="12" sm="6" md="3">
                      <v-select
                         v-model="currentBill.types"
                         :items="types"
@@ -33,7 +33,7 @@
                     ></v-select>
                 </v-col>
 
-                <v-col cols="12" sm="4">
+                <v-col cols="12" sm="6" md="3">
                     <v-text-field
                     type="number"
                     v-model="currentBill.value"
@@ -41,6 +41,33 @@
                     required
                     hide-details
                     ></v-text-field>
+                </v-col>
+                
+                <v-col cols="12" sm="6" md="3">
+                    <v-menu
+                      ref="menuData"
+                      v-model="menuData"
+                      :close-on-content-click="false"
+                      transition="scale-transition"
+                      offset-y
+                      max-width="290px"
+                      min-width="290px"
+                    >
+                      <template v-slot:activator="{ on }">
+                        <v-text-field
+                          v-model="dateFormatted"
+                          label="Data"
+                          prepend-icon="mdi-calendar"
+                          v-on="on"
+                        ></v-text-field>
+                      </template>
+                      <v-date-picker 
+                        v-model="currentBill.date" 
+                        no-title 
+                        @input="formatDate"
+                      >
+                      </v-date-picker>
+                    </v-menu>
                 </v-col>
 
                 <v-col cols="12">
@@ -109,9 +136,15 @@
     </template>
 
      <template v-slot:item.value="{ item }">
-         <v-card flat :class="item.types === 'Receita' ? 'green--text'  : 'red--text'">
+         <div flat :class="item.types === 'Receita' ? 'green--text'  : 'red--text'">
                 R$ {{item.value.toFixed(2)}}
-         </v-card>
+         </div>
+    </template>
+
+    <template v-slot:item.date="{ item }">
+        <div>
+           {{dataDetail(item.date)}}
+        </div>
     </template>
 
     <template v-slot:no-data>
@@ -161,7 +194,7 @@
         <v-card-title class="headline">Detalhes da conta</v-card-title>
         <v-card-text>
             <v-row>
-                <v-col cols="12" sm="4">
+                <v-col cols="12" sm="6" md="3">
                     <v-text-field
                     :value="currentBillDetail.description"
                     label="Descrição"
@@ -171,7 +204,7 @@
                     ></v-text-field>
                 </v-col>
 
-                 <v-col cols="12" sm="4">
+                 <v-col cols="12" sm="6" md="3">
                      <v-select
                         :value="currentBillDetail.types"
                         :items="types"
@@ -181,7 +214,7 @@
                     ></v-select>
                 </v-col>
 
-                <v-col cols="12" sm="4">
+                <v-col cols="12" sm="6" md="3">
                     <v-text-field
                     type="number"
                     :value="currentBillDetail.value"
@@ -191,6 +224,17 @@
                     readonly
                     ></v-text-field>
                 </v-col>
+
+                 <v-col cols="12" sm="6" md="3">
+                    <v-text-field
+                    :value="dataDetail(currentBillDetail.date)"
+                    label="Data"
+                    required
+                    hide-details
+                    readonly
+                    ></v-text-field>
+                </v-col>
+
 
                 <v-col cols="12">
                      <v-textarea
@@ -220,13 +264,16 @@
 </template>
 
 <script>
+import  { dataConvert } from '../util/DateFormatterUtil'
 export default {
     data: () => ({
       showForm: false,
       deleteConfirmation : false,
+      menuData: false,
+      dateFormatted: "",
       detailsBill: false,
       billRemove: null,
-      currentBillDetail: {},
+      currentBillDetail: { date: ""},
       currentBill: {},
       types: [
           "Receita",
@@ -251,6 +298,10 @@ export default {
           text: "Valor",
           value: "value"
         },
+         {
+          text: "Data",
+          value: "date"
+        },
         {
           text: "Ações",
           value: "actions",
@@ -271,12 +322,14 @@ export default {
             {
                 description:  "Luz",
                 types: "Despesa",
-                value: 200
+                value: 200,
+                date: '2020-10-30'
             },
             {
                 description:  "CCXP",
                 types: "Despesa",
-                value: 500
+                value: 500,
+                date:'2020-9-25'
             }
             
         ],
@@ -286,6 +339,7 @@ export default {
 
     
       formOpen(){
+        this.clear();
         this.showForm = true
       },
 
@@ -297,13 +351,13 @@ export default {
         this.bills.push(newBill)
         this.balanceCalculation()
         this.idGenerate++
-        this.clean();
+        this.clear();
       },
 
-      clean(){
-          this.showForm = false
+      clear(){
           this.currentBill= {}
           this.billRemove = null;
+          this.showForm=false
 
       },
 
@@ -329,7 +383,7 @@ export default {
 
       close(){
           this.deleteConfirmation = false
-          this.clean();
+          this.clear();
       },
 
       confirmRemove(){
@@ -339,7 +393,22 @@ export default {
           })
           this.balanceCalculation();
           this.close()
-      }
+      },
+
+      dataConvert(date){
+        const [year, month, day] = date.split('-')
+        return `${day}/${month}/${year}`
+    },
+
+  
+      formatDate(){
+        this.dateFormatted = dataConvert(this.currentBill.date)
+        this.menuData=false
+      },
+
+     dataDetail(date){
+       return dataConvert(date)
+     }
     },          
     }
 </script>
