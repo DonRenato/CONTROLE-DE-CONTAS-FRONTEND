@@ -23,7 +23,7 @@
       dark
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>Fábrica de Programadores</v-toolbar-title>
+      <v-toolbar-title>Controle de Contas - NYD</v-toolbar-title>
     </v-app-bar>
 
     <v-main>

@@ -9,7 +9,7 @@
         src="https://www.imagemhost.com.br/images/2020/09/25/logo-nyd.png"
         contain
         aspect-ratio="1.7"
-        max-width="500px"
+        max-width="300px"
         >
       </v-img>
     </v-row>
