@@ -1,7 +1,7 @@
 <template>
 
   <div>
-    <v-card class="my-9 mx-auto" v-if="showForm" >
+    <v-card class="my-9 mx-auto" v-if="showForm" color="#4c5d67">
       <v-btn    @click="showForm = false"
                 color="#ed7947"
                 dark
@@ -10,10 +10,11 @@
                 top
                 right
                 fab
+                
               >
                 <v-icon>mdi-close</v-icon>
               </v-btn>
-      <v-container>
+      <v-container style="background-color: #4c5d67">
         <div class="mb-4">{{formTitle}}</div>
         <v-row>
           <v-col cols="12" sm="6" md="3">
@@ -22,6 +23,7 @@
               label="Nome"
               required
               hide-details
+              color="#ed7947"
             ></v-text-field>
           </v-col>
 
@@ -31,6 +33,7 @@
             label="Username"
             required
             hide-details
+            color="#ed7947"
           ></v-text-field>
           </v-col>
           
@@ -40,6 +43,7 @@
             label="E-mail"
             required
             hide-details
+            color="#ed7947"
           ></v-text-field>
           </v-col>
 
@@ -50,6 +54,7 @@
             label="Senha"
             required
             hide-details
+            color="#ed7947"
           ></v-text-field>
           </v-col>
       
@@ -66,9 +71,10 @@
     :headers="headers"
     :items="users"
     class="elevation-1"
+    style="background-color: #4c5d67"
   >
     <template v-slot:top>
-      <v-toolbar flat color="white">
+      <v-toolbar flat color="#4c5d67">
         <v-toolbar-title>Usuários cadastrados</v-toolbar-title>
         <v-divider
           class="mx-4"

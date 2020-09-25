@@ -1,6 +1,6 @@
 <template>
 <div>
-    <v-card class="my-9 mx-auto" v-if="showForm" >
+    <v-card class="my-9 mx-auto" v-if="showForm" color="#4c5d67">
       <v-btn    @click="showForm = false"
                 color="#ed7947"
                 dark
@@ -12,7 +12,7 @@
               >
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
-        <v-container>
+        <v-container style="background-color: #4c5d67" >
             <div class="mb-4">Nova conta</div>
             <v-row>
                 <v-col cols="12" sm="6" md="3">
@@ -21,6 +21,7 @@
                     label="Descrição"
                     required
                     hide-details
+                    color="#ed7947"
                     ></v-text-field>
                 </v-col>
 
@@ -30,6 +31,7 @@
                         :items="types"
                         label="Tipos"
                         hide-details
+                        color="#ed7947"
                     ></v-select>
                 </v-col>
 
@@ -40,6 +42,7 @@
                     label="Valor"
                     required
                     hide-details
+                    color="#ed7947"
                     ></v-text-field>
                 </v-col>
                 
@@ -52,6 +55,7 @@
                       offset-y
                       max-width="290px"
                       min-width="290px"
+                      color="#ed7947"
                     >
                       <template v-slot:activator="{ on }">
                         <v-text-field
@@ -59,12 +63,14 @@
                           label="Data"
                           prepend-icon="mdi-calendar"
                           v-on="on"
+                          color="#ed7947"
                         ></v-text-field>
                       </template>
                       <v-date-picker 
                         v-model="currentBill.date" 
                         no-title 
                         @input="formatDate"
+                        color="#ed7947"
                       >
                       </v-date-picker>
                     </v-menu>
@@ -89,9 +95,10 @@
     :headers="headers"
     :items="bills"
     class="elevation-1"
+    style="background-color: #4c5d67"
   >
     <template v-slot:top>
-      <v-toolbar flat color="white">
+      <v-toolbar flat color="#4c5d67">
         <v-toolbar-title>Contas cadastrados</v-toolbar-title>
         <v-divider
           class="mx-4"
@@ -104,14 +111,14 @@
     </template>
 
     <template v-slot:body.append>
-      <v-toolbar flat color="white">
+      <v-toolbar flat color="#4c5d67">
         <v-toolbar-title>Balanço</v-toolbar-title>
         <v-divider
           class="mx-4"
           inset
           vertical
         ></v-divider>
-        <v-card flat :class="generalBalance >= 0 ? 'green--text' : 'red--text'">
+        <v-card color="#4c5d67" flat :class="generalBalance >= 0 ? 'green--text' : 'red--text'">
             R$ {{generalBalance.toFixed(2)}}
         </v-card>
       </v-toolbar>

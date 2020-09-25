@@ -4,8 +4,9 @@
       v-model="drawer"
       app
       clipped
+      color="#4c5d67"
     >
-      <v-list dense>
+      <v-list dense color="#4c5d67">
         <v-list-item link :to="item.route" v-for="(item, index) in routes" :key="index">
           <v-list-item-action>
             <v-icon>{{item.icon}}</v-icon>
@@ -26,7 +27,7 @@
       <v-toolbar-title>Controle de Contas - NYD</v-toolbar-title>
     </v-app-bar>
 
-    <v-main>
+    <v-main style="background-color: #4c5d67">
         <router-view></router-view>
     </v-main>
 
@@ -67,7 +68,7 @@
       ],
     }),
     created () {
-      this.$vuetify.theme.dark = false
+      this.$vuetify.theme.dark = true
     },
   }
 </script>
