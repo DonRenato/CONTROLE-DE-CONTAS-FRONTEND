@@ -395,11 +395,7 @@ export default {
           this.close()
       },
 
-      dataConvert(date){
-        const [year, month, day] = date.split('-')
-        return `${day}/${month}/${year}`
-    },
-
+ 
   
       formatDate(){
         this.dateFormatted = dataConvert(this.currentBill.date)
