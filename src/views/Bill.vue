@@ -184,7 +184,7 @@
                 <v-col cols="12" sm="4">
                     <v-text-field
                     type="number"
-                    :value="currentBillDetail.value.toFixed(2)"
+                    :value="currentBillDetail.value"
                     label="Valor"
                     required
                     hide-details
