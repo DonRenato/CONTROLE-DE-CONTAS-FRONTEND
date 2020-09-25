@@ -217,7 +217,7 @@
                 <v-col cols="12" sm="6" md="3">
                     <v-text-field
                     type="number"
-                    :value="currentBillDetail.value"
+                    :value="currentBillDetail.value.toFixed(2)"
                     label="Valor"
                     required
                     hide-details
@@ -273,7 +273,7 @@ export default {
       dateFormatted: "",
       detailsBill: false,
       billRemove: null,
-      currentBillDetail: { date: ""},
+      currentBillDetail: { value: 0, date: ""},
       currentBill: {},
       types: [
           "Receita",
@@ -329,7 +329,7 @@ export default {
                 description:  "CCXP",
                 types: "Despesa",
                 value: 500,
-                date:'2020-9-25'
+                date:'2020-09-25'
             }
             
         ],

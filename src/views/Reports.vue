@@ -3,21 +3,20 @@
     
     <v-card
     class="mt-4 mx-auto"
-  >
-    <v-sheet
-      class="v-sheet--offset mx-auto"
-      color="cyan"
+     color="#0b1f34"
       elevation="12"
       max-width="calc(100% - 32px)"
+  >
+    <v-container
     >
       <v-sparkline
         :labels="labels"
         :value="value"
-        color="white"
-        line-width="2"
+        color="#ed7947"
+        line-width="1"
         padding="16"
       ></v-sparkline>
-    </v-sheet>
+    </v-container>
   </v-card>
 </div> 
 </template>
@@ -27,18 +26,18 @@
   export default {
     data: () => ({
       labels: [
-        'Janeiro',
-        'Fevereiro',
-        'Março',
-        'Abril',
-        'Maio',
-        'Junho',
-        'Julho',
-        'Agosto',
-        'Setembro',
-        'Outubro',
-        'Novembro',
-        'Dezembro'
+        'Jan',
+        'Fev',
+        'Mar',
+        'Abr',
+        'Mai',
+        'Jun',
+        'Jul',
+        'Ago',
+        'Set',
+        'Out',
+        'Nov',
+        'Dez'
       ],
       value: [
         200,
