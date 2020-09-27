@@ -175,7 +175,7 @@
 
           <v-btn
             text
-            @click="close"
+            @click="clear"
           >
             Não
           </v-btn>
@@ -271,8 +271,8 @@
 </template>
 
 <script>
-import Bill from '../util/BillRequest'
 import  { dataConvert } from '../util/DateFormatterUtil'
+import Bill from '../util/BillRequest'
 export default {
     data: () => ({
       showForm: false,
@@ -291,7 +291,6 @@ export default {
       description: "",
       observations: "",
       bills: [],
-
       headers:[
         {
           text: "Descrição",
@@ -315,63 +314,56 @@ export default {
           sortable: false
         },
       ]
-
      
     }),
        
        created () {
       this.initialize()
     },
-
     methods: {
-      initialize () {
-        Bill.index().then(bills => {
-            this.bills = bills
-            this.balanceCalculation();
-          })
+      initialize() {
 
+        Bill.index().then(bills =>{
+          this.bills = bills
+          this.balanceCalculation()
+        })
+        
         
       },
-
     
       formOpen(){
         this.clear();
         this.showForm = true
       },
-
       save(){
         let newBill = {}
         Object.assign(newBill, this.currentBill)
         newBill.value = parseFloat(newBill.value)
         Bill.create(newBill).then(res =>{
           if(res.status == 201){
-            alert("Usuário cadastrado com sucesso")
+            alert("Conta cadastrada com sucesso")
             this.initialize();
-             this.balanceCalculation()
+            this.balanceCalculation()
+        this.clear();
           }
           else 
             alert("Erro ao cadastrar a conta")
         })
-        this.clear();
       },
-
       clear(){
           this.currentBill= {}
           this.billRemove = null;
           this.showForm=false
-
+          this.deleteConfirmation = false
       },
-
       remove(bill){
           this.deleteConfirmation = true
           this.billRemove = bill
       },
-
       details(bill){
          this.detailsBill = true
          this.currentBillDetail = bill
       },
-
       balanceCalculation(){
           this.generalBalance = 0
           this.bills.forEach(bill => {
@@ -381,35 +373,27 @@ export default {
               this.generalBalance -= bill.value
           });  
       },
-
-      close(){
-          this.deleteConfirmation = false
-          this.clear();
-      },
-
+     
       confirmRemove(){
-          console.log(JSON.stringify(this.billRemove))
-          Bill.delete(this.billRemove).then(res =>{
-          if(res.status == 200){
+         Bill.delete(this.billRemove).then(res =>{
+           if(res.status == 200){
             alert("Conta deletada com sucesso")
-            this.balanceCalculation();
-            this.close()
-            this.initialize()
+            this.initialize();
+            this.balanceCalculation()
+            this.clear();
           }
-            
-          else
+          else 
             alert("Erro ao deletar a conta")
         })
+         
           
       },
-
  
   
       formatDate(){
         this.dateFormatted = dataConvert(this.currentBill.date)
         this.menuData=false
       },
-
      dataDetail(date){
        return dataConvert(date)
      }
@@ -418,5 +402,4 @@ export default {
 </script>
 
 <style>
-
 </style>
