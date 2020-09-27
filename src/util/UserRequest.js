@@ -9,10 +9,10 @@ export default{
     },
 
     async create(user){
-        return axios.post(apiURL, user).then(res => res.data)
+        return axios.post(apiURL, user).then(res => res)
      },
 
      async update(user){
-        return axios.put(apiURL, user).then(res => res.data)
+        return axios.put(apiURL, user).then(res => res)
      }
 }

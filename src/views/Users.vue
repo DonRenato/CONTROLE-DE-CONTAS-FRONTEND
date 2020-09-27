@@ -95,9 +95,10 @@
       </v-icon>
       <v-icon
         small
-        @click="enableDisable(item)"
+        @click="changeStatus(item)"
       >
-        {{item.active ? "mdi-block-helper" : "mdi-check-bold"}}
+  
+        {{item.active ? "mdi-block-helper" : "mdi-check-bold"}} 
       </v-icon>
     </template>
     <template v-slot:no-data>
@@ -106,14 +107,48 @@
       </v-row>
     </template>
   </v-data-table>
+
+  <v-dialog
+      v-model="changeConfirmation"
+      max-width="400"
+      persistent
+    >
+      <v-card>
+        <v-card-title class="headline">Tem certeza que deseja excluir essa conta?</v-card-title>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn
+            text
+            @click="clear"
+          >
+            Não
+          </v-btn>
+
+          <v-btn
+            color="red darken-1"
+            text
+            @click="enabledDisabled"
+          >
+            Sim
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  
   </div>
  
 </template>
 
 <script>
+  import User from '../util/UserRequest'
+
   export default {
     data: () => ({
       editItem: null,
+      userStatus: null,
+      changeConfirmation: false,
       users: [],
       currentUser: {},
       idGenerate: 3,
@@ -150,35 +185,11 @@
 
     methods: {
       initialize () {
-        this.users = [
-          {
-            id: 0,
-            name: 'Jão Balão',
-            username: 'jaobalao',
-            password: '123',
-            email: 'jaobalao@email.com',
-            active: true
-          },
-           {
-            id: 1,
-            name: 'Maria do Socorro',
-            username: 'maryhelp',
-            password: '123',
-            email: 'maryhelp@email.com',
-            active: true
-          },
-          {
-            id: 2,
-            name: 'Seu Zé',
-            username: 'zé',
-            password: '123',
-            email: 'zé@email.com',
-            active: true
-          },
-          
-          
-          
-        ]
+          User.index().then(users => {
+            this.users = users
+          })
+
+       
       },
 
       formOpen(){
@@ -186,8 +197,22 @@
         this.showForm = true
       },
 
-      enableDisable(user){
-        user.active = !user.active
+      changeStatus(user){
+        this.changeConfirmation = true
+        this.userStatus = user
+      },
+
+
+      enabledDisabled(){
+        this.userStatus.active = !this.userStatus.active
+          User.update(this.userStatus).then(res =>{
+          if(res.status == 200){
+            this.initialize()
+            this.clear()
+          }
+          else
+            alert("Erro ao atualizar o status do usuário")
+        })
       },
 
       save(){
@@ -212,28 +237,37 @@
         let copyUser = {}
         Object.assign(copyUser, this.currentUser)
         copyUser.active = true
-        copyUser.id = this.idGenerate
-        this.users.push(copyUser)
-        this.idGenerate++
-        this.showForm = false
+      
+        User.create(copyUser).then(res =>{
+          if(res.status == 201){
+            alert("Usuário cadastrado com sucesso")
+            this.initialize();
+          }
+          else 
+            alert("Erro ao cadastrar o usuário")
+        })
       },
 
       editSave(){
-       for (let i = 0; i < this.users.length; i++) {
-         
-         if(this.editItem.id == this.users[i].id){
-           this.users.splice(i, 1, this.editItem)
-           break
-         }
-         
-       }
-       this.showForm = false
+         User.update(this.editItem).then(res =>{
+          if(res.status == 200){
+            alert("Usuário atualizado com sucesso")
+            this.initialize()
+          }
+            
+          else
+            alert("Erro aos atualizar o usuário")
+        })
       },
 
       clear(){
         this.currentUser= {}
         this.editItem = null
+        this.showForm = false
+        this.changeConfirmation = false
       },
+
+      
     },
   }
 </script>
