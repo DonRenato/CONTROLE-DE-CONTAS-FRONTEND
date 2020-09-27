@@ -151,7 +151,6 @@
       changeConfirmation: false,
       users: [],
       currentUser: {},
-      idGenerate: 3,
       showForm: false,
       headers:[
         {

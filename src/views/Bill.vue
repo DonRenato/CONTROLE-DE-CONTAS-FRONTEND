@@ -271,6 +271,7 @@
 </template>
 
 <script>
+import Bill from '../util/BillRequest'
 import  { dataConvert } from '../util/DateFormatterUtil'
 export default {
     data: () => ({
@@ -288,7 +289,6 @@ export default {
       ],
       generalBalance: 0,
       description: "",
-      idGenerate: 2,
       observations: "",
       bills: [],
 
@@ -325,23 +325,12 @@ export default {
 
     methods: {
       initialize () {
-        this.bills = [
-            {
-                description:  "Luz",
-                types: "Despesa",
-                value: 200,
-                date: '2020-10-30'
-            },
-            {
-                description:  "CCXP",
-                types: "Despesa",
-                value: 500,
-                date:'2020-09-25'
-            }
-            
-        ],
+        Bill.index().then(bills => {
+            this.bills = bills
+            this.balanceCalculation();
+          })
 
-        this.balanceCalculation();
+        
       },
 
     
@@ -353,11 +342,16 @@ export default {
       save(){
         let newBill = {}
         Object.assign(newBill, this.currentBill)
-        newBill.id = this.idGenerate
         newBill.value = parseFloat(newBill.value)
-        this.bills.push(newBill)
-        this.balanceCalculation()
-        this.idGenerate++
+        Bill.create(newBill).then(res =>{
+          if(res.status == 201){
+            alert("Usuário cadastrado com sucesso")
+            this.initialize();
+             this.balanceCalculation()
+          }
+          else 
+            alert("Erro ao cadastrar a conta")
+        })
         this.clear();
       },
 
@@ -394,12 +388,19 @@ export default {
       },
 
       confirmRemove(){
-          this.bills.forEach((bill, index) =>{
-              if(bill.id == this.billRemove.id)
-                this.bills.splice(index, 1)
-          })
-          this.balanceCalculation();
-          this.close()
+          console.log(JSON.stringify(this.billRemove))
+          Bill.delete(this.billRemove).then(res =>{
+          if(res.status == 200){
+            alert("Conta deletada com sucesso")
+            this.balanceCalculation();
+            this.close()
+            this.initialize()
+          }
+            
+          else
+            alert("Erro ao deletar a conta")
+        })
+          
       },
 
  

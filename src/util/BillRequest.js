@@ -9,10 +9,10 @@ export default{
     },
 
     async create(bill){
-        return axios.post(apiURL, bill).then(res => res.data)
+        return axios.post(apiURL, bill).then(res => res)
      },
 
      async delete(bill){
-        return axios.delete(apiURL, bill).then(res => res.data)
+        return axios.delete(apiURL + `/${bill._id}`).then(res => res)
      }
 }
