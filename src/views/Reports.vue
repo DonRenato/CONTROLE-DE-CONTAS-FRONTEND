@@ -32,6 +32,7 @@
 
 
 <script>
+  import Bill from '../util/BillRequest'
   export default {
     data: () => ({
       eT:0,
@@ -59,69 +60,18 @@
     }),
 
     created(){
-      this.initialize()
-      
-      
+      this.listAllBills()
     },
 
     methods:{
       initialize(){
-        this.bills = [
-           {
-                description:  "Luz",
-                types: "Despesa",
-                value: 200,
-                date: '2020-08-30',
-                observations: "teste"
-            },
-            {
-                description:  "CCXP",
-                types: "Despesa",
-                value: 500,
-                date:'2020-09-25',
-                observations: "teste"
-            },
-            {
-                description:  "CCXP",
-                types: "Receita",
-                value: 50,
-                date:'2020-01-25',
-                observations: "teste"
-            },
-             {
-                description:  "Luz",
-                types: "Receita",
-                value: 200,
-                date: '2020-02-30',
-                observations: "teste"
-            },
-            {
-                description:  "CCXP",
-                types: "Receita",
-                value: 500,
-                date:'2020-05-25',
-                observations: "teste"
-            },
-            {
-                description:  "CCXP",
-                types: "Despesa",
-                value: 50,
-                date:'2020-03-25',
-                observations: "teste"
-            },
-            {
-                description:  "Presente Aniversário",
-                types: "Receita",
-                value: 5000,
-                date:'2020-01-25',
-                observations: "teste"
-            }
-        ]
+       
+       
 
         let today = new Date().toISOString().slice(0,10)
         let year = today.slice(0,4)
         let month = today.slice(5,7)
-        // let day = today.slice(8,10)
+        
         
         this.labels = this.monthAbb.slice(0,parseInt(month))
         this.value = new Array(parseInt(month)).fill(0)
@@ -140,12 +90,20 @@
 
            }
            else{
-             this.eT += (bill.value * -1)
+             this.eT += bill.value
             this.expenseTotal = this.eT.toFixed(2)
            }
 
         })
         
+      },
+
+      listAllBills(){
+         
+        Bill.index().then(bills =>{
+          this.bills = bills
+          this.initialize()
+        })
       }
     }
   }
