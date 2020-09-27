@@ -12,7 +12,7 @@ export default{
         return axios.post(apiURL, bill).then(res => res.data)
      },
 
-     async update(bill){
-        return axios.put(apiURL, bill).then(res => res.data)
+     async delete(bill){
+        return axios.delete(apiURL, bill).then(res => res.data)
      }
 }
