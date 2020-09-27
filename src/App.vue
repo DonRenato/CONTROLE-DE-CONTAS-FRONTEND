@@ -4,7 +4,7 @@
       v-model="drawer"
       app
       clipped
-      color="#4c5d67"
+      color="#0b1f34"
     >
       <v-list dense color="#4c5d67">
         <v-list-item link :to="item.route" v-for="(item, index) in routes" :key="index">
